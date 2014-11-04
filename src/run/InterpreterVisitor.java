@@ -2,7 +2,12 @@ package run;
 
 public class InterpreterVisitor extends BasicLambdaVisitor {
 
+	Expression passUp;
 
+	public InterpreterVisitor() {
+		passUp = null;
+	}
+	
 	@Override
 	public void visit(Abstraction a) {
 		// TODO Auto-generated method stub
@@ -11,14 +16,10 @@ public class InterpreterVisitor extends BasicLambdaVisitor {
 
 	@Override
 	public void visit(Application a) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void visit(Variable v) {
-		// TODO Auto-generated method stub
-		
+		if (a.exp1().type().equals("Abs")) {
+			Expression e = new BetaReductionVisitor().reduce(a);
+			
+		}
 	}
 
 	@Override
