@@ -19,13 +19,25 @@ public class Driver {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Expression expr = new Parser().parse(expression);
-		String toPrint = new PrinterVisitor().print(expr);
-		System.out.println(toPrint);
+		Expression expr = null;
+		try {
+			expr = new Parser().parse(expression);
+		} catch (Exception e) {
+			System.out.println("Invalid expression: could not parse");
+			return;
+		}
+//		String toPrint = new PrinterVisitor().print(expr);
+//		System.out.println(toPrint);
 		boolean frees = new CorrectnessVisitor().check(expr);
-		System.out.println(frees);
+		if (!frees) {
+			System.out.println("Invalid expression: free variable");
+			return;
+		}
+//		System.out.println(frees);
 		new AlphaConversionVisitor().visit(expr);
-		System.out.println(new PrinterVisitor().print(expr));
+//		System.out.println(new PrinterVisitor().print(expr));
+		Expression reduced = new InterpreterVisitor().evaluate(expr);
+		System.out.println(new PrinterVisitor().print(reduced));
 	}
 	
 }

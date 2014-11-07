@@ -3,6 +3,8 @@ package run;
 
 
 public class Parser {
+	
+	public static final char LAMBDA = 955;
 
 	public Expression parse(String toParse) {
 		toParse = toParse.trim();

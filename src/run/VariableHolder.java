@@ -7,8 +7,8 @@ public class VariableHolder implements Expression {
 		return "VarHolder";
 	}
 	
-	public VariableHolder(Variable v) {
-		exp = v;
+	public VariableHolder(Expression e) {
+		exp = e;
 	}
 	
 	private Expression exp;
@@ -24,6 +24,10 @@ public class VariableHolder implements Expression {
 	
 	public void betaReduce(Expression newExp) {
 		exp = newExp;
+	}
+	
+	public void setExp(Expression e) {
+		exp = e;
 	}
 
 }

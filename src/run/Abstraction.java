@@ -16,5 +16,8 @@ public class Abstraction implements Expression{
 	public void alphaConvert(String newParam) {
 		param = newParam;
 	}
+	public void setExp(Expression e) {
+		exp = e;
+	}
 	
 }

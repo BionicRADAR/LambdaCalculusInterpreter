@@ -14,5 +14,7 @@ public class Application implements Expression {
 	
 	public String type() { return "App"; }
 	public void accept(LambdaVisitor v) { v.visit(this); }
+	public void setExp1(Expression e) { exp1 = e; }
+	public void setExp2(Expression e) { exp2 = e; }
 	
 }
