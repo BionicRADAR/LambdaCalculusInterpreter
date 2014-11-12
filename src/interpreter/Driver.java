@@ -11,7 +11,7 @@ public class Driver {
 	public static void main(String[] args) {
 		ViewFrame v = new ViewFrame();
 		v.setVisible(true);
-		System.out.print("> ");
+		/*System.out.print("> ");
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String expression = "";
 		try {
@@ -39,6 +39,7 @@ public class Driver {
 //		System.out.println(new PrinterVisitor().print(expr));
 		Expression reduced = new InterpreterVisitor().evaluate(expr);
 		System.out.println(new PrinterVisitor().print(reduced));
+		*/
 	}
 	
 }

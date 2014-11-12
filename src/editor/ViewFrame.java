@@ -4,6 +4,7 @@ import interpreter.Controller;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -40,8 +41,8 @@ public class ViewFrame extends JFrame {
 		Container p = getContentPane();
 		p.setLayout(new GridBagLayout());
 		makeHistoryArea(p);
-		makeDefsArea(p);
 		makeInputArea(p);
+		makeDefsArea(p);
 	}
 	
 	private void makeHistoryArea(Container p) {
@@ -55,15 +56,14 @@ public class ViewFrame extends JFrame {
 		c.fill = GridBagConstraints.BOTH;
 		c.gridwidth = 1;
 		c.gridheight = 1;
-		JTextArea history = new JTextArea();
-		history.setColumns(50);
-		history.setRows(30);
+		JTextArea history = new JTextArea(50, 30);
 		history.setLineWrap(true);
 		history.setFont(font);
 		history.setBackground(Color.BLACK);
 		history.setForeground(Color.WHITE);
 		history.setCaretColor(Color.WHITE);
 		history.setEditable(false);
+		history.setPreferredSize(new Dimension(50, 30));
 		this.history = history;
 		//JPanel hist = new JPanel();
 		//hist.add(history);
@@ -88,6 +88,7 @@ public class ViewFrame extends JFrame {
 		defsText.setBackground(Color.BLACK);
 		defsText.setCaretColor(Color.WHITE);
 		defsText.setEditable(false);
+		defsText.setPreferredSize(new Dimension(10, 30));
 		this.defsText = defsText;
 		//defs.add(defsText);
 		p.add(defsText, c);
@@ -95,7 +96,7 @@ public class ViewFrame extends JFrame {
 	
 	private void makeInputArea(Container p) {
 		GridBagConstraints c = new GridBagConstraints();
-		c.weightx = 0.6;
+		c.weightx = 0.8;
 		c.weighty = 0.0;
 		c.gridx = 0;
 		c.gridy = 1;
@@ -151,6 +152,8 @@ public class ViewFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			String exp = input.getText();
+			if (exp.equals(""))
+				return;
 			input.setText("");
 			input.setEnabled(false);
 			history.append("> " + exp + "\n");

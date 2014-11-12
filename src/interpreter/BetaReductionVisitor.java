@@ -6,8 +6,10 @@ public class BetaReductionVisitor extends BasicLambdaVisitor {
 	private String param;
 	private Expression repl;
 	private boolean isParam;
+	private String errors;
 	
 	public BetaReductionVisitor() {
+		errors = "";
 		isParam = false;
 	}
 
@@ -27,12 +29,13 @@ public class BetaReductionVisitor extends BasicLambdaVisitor {
 	}
 	
 	public Expression reduce(Application a) {
+		errors = "";
 		Expression e1 = a.exp1();
 		while (e1.type().equals("VarHolder")) {
 			e1 = ((VariableHolder) e1).exp();
 		}
 		if (!e1.type().equals("Abs")) {
-			System.out.println("Not a valid beta-reduction");
+			errors += ("Not a valid beta-reduction\n");
 			return null;
 		}
 		Abstraction abs = (Abstraction) e1;
@@ -42,6 +45,10 @@ public class BetaReductionVisitor extends BasicLambdaVisitor {
 		visit(abs.exp());
 //		System.out.println(new PrinterVisitor().print(abs.exp()));
 		return abs.exp();
+	}
+	
+	public String getErrors() {
+		return errors;
 	}
 
 }

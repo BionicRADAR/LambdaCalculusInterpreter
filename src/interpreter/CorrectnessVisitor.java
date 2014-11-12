@@ -5,21 +5,24 @@ public class CorrectnessVisitor extends BasicLambdaVisitor {
 	
 	private CorrectnessStack fr;
 	private boolean correct;
+	private String errors;
+	
 	public CorrectnessVisitor() {
 		fr = new CorrectnessStack();
 		correct = true;
+		errors = "";
 	}
 	
 	@Override
 	public void visit(Abstraction a) {
 		if (fr.contains(a.param())) {
-			System.out.println("Conflicting variable " + a.param());
+			errors += "Conflicting variable " + a.param() + "\n";
 			correct = false;
 		}
 		fr.push(a.param());
 		visit(a.exp());
 		if (a.param() != fr.pop()) {
-			System.out.println("Stack check error on param " + a.param());
+			errors += "Stack check error on param " + a.param() + "\n";
 			correct = false;
 		}
 	}
@@ -27,14 +30,19 @@ public class CorrectnessVisitor extends BasicLambdaVisitor {
 	@Override
 	public void visit(Variable v) {
 		if (!fr.contains(v.id())) {
-			System.out.println("Free Variable " + v.id());
+			errors += "Free Variable " + v.id() + "\n";
 			correct = false;
 		}
 	}
 
 	public boolean check(Expression e) {
-		e.accept(this);
+		errors = "";
+		visit(e);
 		return correct;
+	}
+	
+	public String getErrors() {
+		return errors;
 	}
 	
 }
