@@ -12,6 +12,13 @@ public class Controller {
 	
 	private static final char ALPHA = (char) 945;
 	
+	private static final String HELPTEXT = "This is a lambda calculus interpreter.\n" +
+			"Type a '" + (char) 955 + "' with the ';' (semicolon) key.\n" +
+			"All applications must be parenthesized, as in (a b).\n" +
+			"You can define a variable by placing its (alphanumeric) name left of\n" +
+			"an expression, followed by an equal sign, as in var = expression.\n" +
+			"All other variables must be bound (ie, placed in an abstraction).";
+	
 	private Controller() {
 		defs = new HashMap<String, Expression>();
 	}
@@ -19,8 +26,12 @@ public class Controller {
 	public static Controller getInstance() { return controller; }
 	
 	public String interpret(String expression) {
+		if (expression.equals("exit"))
+			System.exit(0);
 		if (expression.equals(""))
 			return "";
+		if (expression.equals("help"))
+			return HELPTEXT;
 		String toReturn = "";
 		int eqLoc = expression.indexOf('=');
 		String defName = "";

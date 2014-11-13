@@ -45,6 +45,7 @@ public class InterpreterVisitor extends BasicLambdaVisitor {
 		}
 	}
 	
+	/*
 	@Override
 	public void visit(VariableHolder h) {
 		visit(h.exp());
@@ -53,6 +54,7 @@ public class InterpreterVisitor extends BasicLambdaVisitor {
 			passUp = null;
 		}
 	}
+	*/
 	
 	public Expression evaluate(Expression e) {
 		startPoint = e;

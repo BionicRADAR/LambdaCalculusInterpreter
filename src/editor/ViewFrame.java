@@ -14,16 +14,20 @@ import java.util.Iterator;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultCaret;
 
 public class ViewFrame extends JFrame {
 	
-	Font font;
+	private Font font;
 	
 	private JTextField input;
 	private JTextArea history, defsText;
+
 
 	/**
 	 * 
@@ -31,6 +35,7 @@ public class ViewFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public ViewFrame() {
+		super("Lambda Calculus Interpreter");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setBounds(20, 20, 800, 500);
 		font = new Font("Monospaced", Font.PLAIN, 12);
@@ -56,7 +61,7 @@ public class ViewFrame extends JFrame {
 		c.fill = GridBagConstraints.BOTH;
 		c.gridwidth = 1;
 		c.gridheight = 1;
-		JTextArea history = new JTextArea(50, 30);
+		JTextArea history = new JTextArea(25, 30);
 		history.setLineWrap(true);
 		history.setFont(font);
 		history.setBackground(Color.BLACK);
@@ -64,10 +69,12 @@ public class ViewFrame extends JFrame {
 		history.setCaretColor(Color.WHITE);
 		history.setEditable(false);
 		history.setPreferredSize(new Dimension(50, 30));
+		((DefaultCaret) history.getCaret()).setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		this.history = history;
+		JScrollPane hist = new JScrollPane(history);
 		//JPanel hist = new JPanel();
 		//hist.add(history);
-		p.add(history, c);
+		p.add(hist, c);
 	}
 	
 	private void makeDefsArea(Container p) {
@@ -81,7 +88,7 @@ public class ViewFrame extends JFrame {
 		c.gridheight = 2;
 		c.insets = new Insets(0, 1, 0, 0);
 		//JPanel defs = new JPanel();
-		JTextArea defsText = new JTextArea(30, 10);
+		JTextArea defsText = new JTextArea(25, 10);
 		defsText.setLineWrap(true);
 		defsText.setFont(font);
 		defsText.setForeground(Color.WHITE);
@@ -90,8 +97,9 @@ public class ViewFrame extends JFrame {
 		defsText.setEditable(false);
 		defsText.setPreferredSize(new Dimension(10, 30));
 		this.defsText = defsText;
+		JScrollPane defs = new JScrollPane(defsText);
 		//defs.add(defsText);
-		p.add(defsText, c);
+		p.add(defs, c);
 	}
 	
 	private void makeInputArea(Container p) {
@@ -120,9 +128,10 @@ public class ViewFrame extends JFrame {
 	}
 	
 	private void updateDefs() {
-		defsText.setText("");
 		for (Iterator<String> it = Controller.getInstance().getDefs().keySet().iterator(); it.hasNext(); ) {
-			defsText.append(it.next() + "\n");
+			String defName = it.next();
+			if (!defsText.getText().contains(defName))
+				defsText.append(defName + "\n");
 		}
 	}
 	
@@ -155,12 +164,48 @@ public class ViewFrame extends JFrame {
 			if (exp.equals(""))
 				return;
 			input.setText("");
-			input.setEnabled(false);
+			input.getActionMap().put("interpret", new NoAction());
 			history.append("> " + exp + "\n");
 			history.append(Controller.getInstance().interpret(exp) + "\n");
-			input.setEnabled(true);
 			updateDefs();
+			int historyDepth, defsDepth;
+			historyDepth = defsDepth = 0;
+			try {
+				historyDepth = history.getLineOfOffset(history.getCaretPosition());
+				defsDepth = defsText.getLineOfOffset(defsText.getCaretPosition());
+			} catch (BadLocationException e) {
+				System.out.println("Caret misplaced in history or defs text areas");
+				e.printStackTrace();
+			}
+			if (historyDepth > 95) {
+				try {
+					history.replaceRange("", 0, history.getLineEndOffset(5));
+				} catch (BadLocationException e) {
+					System.out.println("Problem with history text area");
+					e.printStackTrace();
+				}
+			}
+			else if (historyDepth > history.getRows() - 10) {
+				history.setRows(history.getRows() + 10);
+			}
+			
+			if (defsDepth > defsText.getRows() - 3) {
+				defsText.setRows(defsText.getRows() + 10);
+			}
+			input.getActionMap().put("interpret", this);
 		}
+		
+	}
+	
+	class NoAction extends AbstractAction {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {}
 		
 	}
 	

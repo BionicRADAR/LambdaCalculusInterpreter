@@ -22,9 +22,16 @@ public class AlphaConversionVisitor extends BasicLambdaVisitor {
 				newID = a.param() + i;
 			}
 			ids.add(newID);
-			conv.put(a.param(), newID);
-			visit(a.exp());
-			conv.remove(a.param());
+			if (conv.containsKey(a.param())) {
+				String oldID = conv.get(a.param());
+				conv.put(a.param(), newID);
+				visit(a.exp());
+				conv.put(a.param(), oldID);
+			} else {
+				conv.put(a.param(), newID);
+				visit(a.exp());
+				conv.remove(a.param());
+			}
 			a.alphaConvert(newID);
 			return;
 		}
