@@ -64,8 +64,11 @@ public class Controller {
 		PrinterVisitor printer = new PrinterVisitor();
 		new AlphaConversionVisitor().visit(expr);
 		toReturn += ALPHA + ":" + printer.print(expr) + "\n";
-		
-		expr = new InterpreterVisitor().evaluate(expr);
+		try {
+			expr = new InterpreterVisitor().evaluate(expr);
+		} catch (StackOverflowError e) {
+			return "Invalid expression: infinite recursion";
+		}
 		if (defName != "")
 			defs.put(defName, expr);
 		return toReturn + printer.print(expr);
