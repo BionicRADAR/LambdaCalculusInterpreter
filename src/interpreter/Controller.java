@@ -67,13 +67,13 @@ public class Controller {
 		try {
 			expr = new InterpreterVisitor().evaluate(expr);
 		} catch (StackOverflowError e) {
-			return "Invalid expression: infinite recursion";
+			return "Error: infinite recursion";
 		}
 		if (defName != "")
 			defs.put(defName, expr);
 		return toReturn + printer.print(expr);
 	}
-	
+
 	public Map<String, Expression> getDefs() {
 		return defs;
 	}
