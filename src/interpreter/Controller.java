@@ -79,7 +79,7 @@ public class Controller {
 			defs.put(defName, expr);
 		return toReturn + printer.print(expr);
 	}
-	
+
 	public Map<String, Expression> getDefs() {
 		return defs;
 	}
