@@ -2,18 +2,25 @@ package interpreter;
 
 public class InterpreterVisitor extends BasicLambdaVisitor {
 
-	Expression passUp;
-	Expression startPoint;
+	private Expression passUp;
+	private Expression startPoint;
+	private int maxReductions; 
+	private int reductions = 0;
 
-	public InterpreterVisitor() {
+	public InterpreterVisitor(int maxReds) {
 		passUp = null;
 		startPoint = null;
+		maxReductions = maxReds;
 	}
 
 	@Override
 	public void visit(Application a) {
 		if (new CheckAbstractionVisitor().isAbstraction(a.exp1())) {
 			passUp = new BetaReductionVisitor().reduce(a);
+			reductions++;
+			if (reductions > maxReductions) {
+				throw new ReductionLimitException();
+			}
 			if (a == startPoint) {
 				startPoint = passUp;
 				passUp = null;
@@ -57,6 +64,7 @@ public class InterpreterVisitor extends BasicLambdaVisitor {
 	*/
 	
 	public Expression evaluate(Expression e) {
+		reductions = 0;
 		startPoint = e;
 		visit(startPoint);
 		return startPoint;

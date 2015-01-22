@@ -19,7 +19,7 @@ public class Controller {
 			"All applications must be parenthesized, as in (a b).\n" +
 			"You can define a variable by placing its (alphanumeric) name left of\n" +
 			"an expression, followed by an equal sign, as in var = expression.\n" +
-			"All other variables must be bound (ie, placed in an abstraction).";
+			"All other variables must be bound (ie, placed in an abstraction).\n";
 	
 	private Controller() {
 		defs = new HashMap<String, Expression>();
@@ -71,9 +71,11 @@ public class Controller {
 		new AlphaConversionVisitor().visit(expr);
 		toReturn += ALPHA + ":" + printer.print(expr) + "\n";
 		try {
-			expr = new InterpreterVisitor().evaluate(expr);
+			expr = new InterpreterVisitor(maxReductions).evaluate(expr);
 		} catch (StackOverflowError e) {
 			return "Error: infinite recursion";
+		} catch (ReductionLimitException e) {
+			return "Error: maximum reductions exceeded";
 		}
 		if (defName != "")
 			defs.put(defName, expr);
