@@ -10,6 +10,8 @@ public class Controller {
 	
 	private Map<String, Expression> defs;
 	
+	private int maxReductions = 100000;
+	
 	private static final char ALPHA = (char) 945;
 	
 	private static final String HELPTEXT = "This is a lambda calculus interpreter.\n" +
@@ -21,6 +23,7 @@ public class Controller {
 	
 	private Controller() {
 		defs = new HashMap<String, Expression>();
+		maxReductions = 100000;
 	}
 	
 	public static Controller getInstance() { return controller; }
@@ -32,6 +35,9 @@ public class Controller {
 			return "";
 		if (expression.equals("help"))
 			return HELPTEXT;
+		if (expression.substring(0, 10).equals("setMaxReds")) {
+			return setMaxReds(expression.substring(10));
+		}
 		String toReturn = "";
 		int eqLoc = expression.indexOf('=');
 		String defName = "";
@@ -64,8 +70,11 @@ public class Controller {
 		PrinterVisitor printer = new PrinterVisitor();
 		new AlphaConversionVisitor().visit(expr);
 		toReturn += ALPHA + ":" + printer.print(expr) + "\n";
-		
-		expr = new InterpreterVisitor().evaluate(expr);
+		try {
+			expr = new InterpreterVisitor().evaluate(expr);
+		} catch (StackOverflowError e) {
+			return "Error: infinite recursion";
+		}
 		if (defName != "")
 			defs.put(defName, expr);
 		return toReturn + printer.print(expr);
@@ -73,6 +82,18 @@ public class Controller {
 	
 	public Map<String, Expression> getDefs() {
 		return defs;
+	}
+	
+	private String setMaxReds(String newMax) {
+		try {
+			int temp = Integer.parseInt(newMax.trim());
+			if (temp < 1)
+				throw new NumberFormatException();
+			maxReductions = temp;
+		} catch (NumberFormatException e) {
+			return "Failed to change max reductions: new max provided is not a valid number"; 
+		}
+		return "New maximum reductions: " + maxReductions;
 	}
 	
 }
