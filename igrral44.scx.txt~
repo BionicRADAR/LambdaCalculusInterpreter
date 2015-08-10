@@ -1,0 +1,58 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	modified:   LambdaInterp.jar
+#	modified:   README.md
+#	deleted:    bin/.gitignore
+#	deleted:    bin/editor/.gitignore
+#	modified:   bin/editor/EditorFrame.class
+#	deleted:    bin/editor/ViewFrame$InterpretAction.class
+#	deleted:    bin/editor/ViewFrame$LambdaAction.class
+#	deleted:    bin/editor/ViewFrame$NoAction.class
+#	deleted:    bin/editor/ViewFrame.class
+#	deleted:    bin/interpreter/.gitignore
+#	modified:   bin/interpreter/Controller.class
+#	modified:   bin/interpreter/CorrectnessVisitor.class
+#	modified:   bin/interpreter/Driver.class
+#	modified:   bin/interpreter/ExpressionParser.class
+#	modified:   bin/interpreter/InterpreterVisitor$CheckAbstractionVisitor.class
+#	modified:   bin/interpreter/InterpreterVisitor.class
+#	modified:   src/editor/EditorFrame.java
+#	deleted:    src/editor/ViewFrame.java
+#	modified:   src/interpreter/Controller.java
+#	modified:   src/interpreter/CorrectnessVisitor.java
+#	modified:   src/interpreter/DefReplacementVisitor.java
+#	modified:   src/interpreter/Driver.java
+#	modified:   src/interpreter/ExpressionParser.java
+#
+# Untracked files:
+#	bin/editor/CloseListener.class
+#	bin/editor/EditorFrame$1.class
+#	bin/editor/EditorFrame$2.class
+#	bin/editor/EditorFrame$3.class
+#	bin/editor/EditorFrame$4.class
+#	bin/editor/EditorFrame$5.class
+#	bin/editor/EditorFrame$6.class
+#	bin/editor/InterpreterView$GetLastAction.class
+#	bin/editor/InterpreterView$GetNextAction.class
+#	bin/editor/InterpreterView$InterpretAction.class
+#	bin/editor/InterpreterView$NoAction.class
+#	bin/editor/InterpreterView.class
+#	bin/editor/LambdaAction.class
+#	bin/editor/SaveFileChooser.class
+#	bin/interpreter/DefReplacementVisitor.class
+#	bin/interpreter/InputRecord.class
+#	bin/interpreter/ReductionLimitException.class
+#	bin/test/
+#	src/editor/CloseListener.java
+#	src/editor/InterpreterView.java
+#	src/editor/LambdaAction.java
+#	src/editor/SaveFileChooser.java
+#	src/interpreter/InputRecord.java
+#	src/test/
+#
+
