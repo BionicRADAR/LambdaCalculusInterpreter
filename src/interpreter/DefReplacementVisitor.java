@@ -34,6 +34,7 @@ public class DefReplacementVisitor extends BasicLambdaVisitor{
 			visit(a.exp());
 			if (!stack.pop().equals(a.param()))
 				errors += "Stack check error on " + a.param() + "\n";
+			return;
 		}
 		visit(a.exp());
 	}

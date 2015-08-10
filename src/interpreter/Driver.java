@@ -1,15 +1,12 @@
 package interpreter;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import editor.ViewFrame;
+import editor.InterpreterView;
 
 
 public class Driver {
 
 	public static void main(String[] args) {
-		ViewFrame v = new ViewFrame();
+		InterpreterView v = new InterpreterView();
 		v.setVisible(true);
 		/*System.out.print("> ");
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

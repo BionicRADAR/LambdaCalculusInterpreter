@@ -18,6 +18,9 @@ public class ExpressionParser {
 	public Expression parse(String toParse) throws ParseException {
 		errors = "";
 		toParse = toParse.trim();
+		if (toParse.length() == 0) {
+			throw new ParseException("String segment was only whitespace", 0); 
+		}
 		if (toParse.charAt(0) == '(') { //It is an application
 			toParse = toParse.substring(1, toParse.length() - 1).trim();
 			int split = findSplit(toParse);
@@ -27,6 +30,9 @@ public class ExpressionParser {
 		}
 		if (toParse.startsWith("fn") || toParse.charAt(0) == LAMBDA || toParse.charAt(0) == ';') { //It is an abstraction				
 			int split = toParse.indexOf('.');
+			if (split < 0) {
+				throw new ParseException("No dot/expression following lambda at: " + toParse, 0);
+			}
 			String param = toParse.substring(1, split);
 			if (toParse.charAt(0) != LAMBDA && toParse.charAt(0) != ';')
 				param = toParse.substring(2, split);

@@ -19,3 +19,6 @@ To store the result in a user-defined variable, precede your expression with an 
 
 For help in-program, type "help"
 To exit, type "exit"
+
+The program now also has an editor, which can be opened by typing "editor" into the input field.
+The editor provides an area to type, which also changes the semicolon into a lambda character.

@@ -6,11 +6,13 @@ public class CorrectnessVisitor extends BasicLambdaVisitor {
 	private CorrectnessStack fr;
 	private boolean correct;
 	private String errors;
+	private Expression passUp;
 	
 	public CorrectnessVisitor() {
 		fr = new CorrectnessStack();
 		correct = true;
 		errors = "";
+		passUp = null;
 	}
 	
 	@Override
@@ -36,7 +38,7 @@ public class CorrectnessVisitor extends BasicLambdaVisitor {
 			correct = false;
 		}
 	}
-
+	
 	public boolean check(Expression e) {
 		errors = "";
 		visit(e);
