@@ -49,6 +49,7 @@ public class InterpreterVisitor extends BasicLambdaVisitor {
 		if (passUp != null) {
 			a.setExp(passUp);
 			passUp = null;
+			visit(a.exp());
 		}
 	}
 	

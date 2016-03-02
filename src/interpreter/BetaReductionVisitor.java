@@ -43,7 +43,6 @@ public class BetaReductionVisitor extends BasicLambdaVisitor {
 		repl = a.exp2();
 		isParam = false;
 		visit(abs.exp());
-//		System.out.println(new PrinterVisitor().print(abs.exp()));
 		return abs.exp();
 	}
 	
