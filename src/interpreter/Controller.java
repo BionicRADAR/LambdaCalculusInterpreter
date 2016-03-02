@@ -186,7 +186,7 @@ public class Controller {
 		try {
 			expr = new InterpreterVisitor(maxReductions).evaluate(expr);
 		} catch (StackOverflowError e) {
-			return toReturn + "Error: infinite recursion";
+			return toReturn + "Error: stack overflow";
 		} catch (ReductionLimitException e) {
 			return toReturn + "Error: maximum reductions exceeded";
 		}
