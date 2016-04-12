@@ -8,6 +8,7 @@ import javax.swing.text.JTextComponent;
 public class LambdaAction extends AbstractAction {
 
 	JTextComponent textComp = null;
+	private static final char LAMBDA = (char) 955;
 	
 	public LambdaAction(JTextComponent textComp) {
 		this.textComp = textComp;
@@ -28,7 +29,7 @@ public class LambdaAction extends AbstractAction {
 				return;
 			}
 		}
-		textComp.replaceSelection("" + (char) 955);
+		textComp.replaceSelection("" + LAMBDA);
 	}
 
 }

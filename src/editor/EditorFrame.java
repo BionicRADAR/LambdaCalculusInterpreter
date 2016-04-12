@@ -183,7 +183,7 @@ public class EditorFrame extends JFrame {
 		codeTextArea.setBackground(Color.BLACK);
 		codeTextArea.setForeground(Color.WHITE);
 		codeTextArea.setCaretColor(Color.WHITE);
-		codeTextArea.setPreferredSize(new Dimension(50, 30));
+		p.add(codeTextArea, c);
 		JScrollPane codeScroll = new JScrollPane(codeTextArea);
 		p.add(codeScroll, c);
 		codeTextArea.getInputMap().put(KeyStroke.getKeyStroke(';'), "putlambda");

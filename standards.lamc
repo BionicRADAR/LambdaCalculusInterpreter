@@ -1,0 +1,10 @@
+standI = λx.x
+standK = λx.λy.x
+standS = λx.λy.λz.((x z) (y z))
+standB = λx.λy.λz.(x (y z))
+standC = λx.λy.λz.((x z) y)
+standW = λx.λy.((x y) y)
+standU = λx.λy.(y ((x x) y))
+standw = λx.(x x)
+standOmega = (standw standw) -lazy
+standY = λg.(λx.(g (x x)) λx.(g (x x))) -lazy

@@ -1,0 +1,10 @@
+vara = λa.a
+varb = λb.b
+varc = λc.c
+vard = λd.d
+cons = λh.λt.λc.((c h) t)
+head = λp.(p λh.λt.h)
+tail = λp.(p λh.λt.t)
+nil = λx.λt.λf.t
+isnil = λp.(p λh.λt.λu.λf.f)
+map = (standY λm.λf.λl.(((if (isnil l)) nil) ((cons (f (head l))) ((m f) (tail l))))) -lazy

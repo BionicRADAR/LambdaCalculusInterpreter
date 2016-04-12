@@ -116,13 +116,13 @@ public class InterpreterView extends JFrame {
 		input.setFont(font);
 		input.setBackground(Color.BLACK);
 		input.setForeground(Color.WHITE);
-		//JPanel ins = new JPanel();
-		//ins.add(input);
-		//put keystroke redefinition here
+		//Make typing ';' input a lambda
 		input.getInputMap().put(KeyStroke.getKeyStroke(';'), "putlambda");
 		input.getActionMap().put("putlambda", new LambdaAction(input));
+		//Make the enter key call the interpret method
 		input.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "interpret");
 		input.getActionMap().put("interpret", new InterpretAction());
+		//Make the up and down keys access the recent actions list
 		input.getInputMap().put(KeyStroke.getKeyStroke("UP"), "getLast");
 		input.getActionMap().put("getLast", new GetLastAction());
 		input.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "getNext");
@@ -140,7 +140,7 @@ public class InterpreterView extends JFrame {
 	
 	public void appendToHistory(String toAppend) {
 		history.append(toAppend + "\n");
-		if (history.getLineCount() > 90) {
+		if (historyLineCount() > 90) {
 			history.setRows(100);
 			while (history.getLineCount() > 90) {
 				try {
@@ -152,9 +152,24 @@ public class InterpreterView extends JFrame {
 			}
 			return;
 		}
-		while (history.getLineCount() + 10 > history.getRows()) {
+		while (historyLineCount() + 10 > history.getRows()) {
 			history.setRows(history.getRows() + 10);
 		}
+	}
+	
+	private int historyLineCount() {
+		String historyText = history.getText();
+		int totalLines = 0;
+		for (int i = 0; i < history.getLineCount(); i++) {
+			int split = historyText.indexOf("\n");
+			String line = historyText;
+			if (split != -1) {
+				line = historyText.substring(0, split);
+				historyText = historyText.substring(split + 1);
+			}
+			totalLines += (1 + line.length() / (3 * history.getColumns()));
+		}
+		return totalLines;
 	}
 	
 	public void addDef(String newDef) {
@@ -168,37 +183,6 @@ public class InterpreterView extends JFrame {
 		return input;
 	}
 	
-	/*
-	private void updateDefs() {
-		for (Iterator<String> it = Controller.getInstance().getDefs().keySet().iterator(); it.hasNext(); ) {
-			String defName = it.next();
-			if (!defsText.getText().contains(defName))
-				defsText.append(defName + "\n");
-		}
-	}
-	
-	private void addDef() {
-		defsText.append(Controller.getInstance().newDef() + "\n");
-	}
-	
-	public JTextArea getHistory() {
-		return history;
-	}
-	
-	class LambdaAction extends AbstractAction {
-
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			String text = input.getText();
-			int caret = input.getCaretPosition();
-			input.setText(text.substring(0, caret) + (char) 955 + text.substring(caret));
-			input.setCaretPosition(caret + 1);
-		}
-	}
-	*/
-	
 	class InterpretAction extends AbstractAction {
 
 		/**
@@ -206,45 +190,6 @@ public class InterpreterView extends JFrame {
 		 */
 		private static final long serialVersionUID = 1L;
 
-		/*
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
-			String exp = input.getText();
-			if (exp.equals(""))
-				return;
-			input.setText("");
-			input.getActionMap().put("interpret", new NoAction());
-			history.append("> " + exp + "\n");
-			history.append(Controller.getInstance().cmdLineInterpret(exp) + "\n");
-			addDef();
-			//updateDefs();
-			int historyDepth, defsDepth;
-			historyDepth = defsDepth = 0;
-			try {
-				historyDepth = history.getLineOfOffset(history.getCaretPosition());
-				defsDepth = defsText.getLineOfOffset(defsText.getCaretPosition());
-			} catch (BadLocationException e) {
-				System.out.println("Caret misplaced in history or defs text areas");
-				e.printStackTrace();
-			}
-			if (historyDepth > 95) {
-				try {
-					history.replaceRange("", 0, history.getLineEndOffset(10));
-				} catch (BadLocationException e) {
-					System.out.println("Problem with history text area");
-					e.printStackTrace();
-				}
-			}
-			else if (historyDepth > history.getRows() - 10) {
-				history.setRows(history.getRows() + 10);
-			}
-			
-			if (defsDepth > defsText.getRows() - 3) {
-				defsText.setRows(defsText.getRows() + 10);
-			}
-			input.getActionMap().put("interpret", this);
-		}
-		*/
 		
 		@Override
 		public void actionPerformed(ActionEvent arg0) {

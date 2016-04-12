@@ -17,7 +17,7 @@ public class Controller {
 	
 	private String newDef;
 	
-	private int maxReductions = 100000;
+	private int maxReductions = 10000;
 	
 	private InputRecord ir;
 	
@@ -31,6 +31,8 @@ public class Controller {
 			"You can define a variable by placing its (alphanumeric) name left of\n" +
 			"an expression, followed by an equal sign, as in var = expression.\n" +
 			"All other variables must be bound (ie, placed in an abstraction).\n" +
+			"If the flag \"-lazy\" is added after an expression, no reductions\n" +
+			"will be attempted.\n" +
 			"Other special inputs: setMaxReds n, where n is the new maximum\n" +
 			"number of reductions for one line of input before it gives up;\n" +
 			"editor, which opens an editor for writing and recording lambda calculus programs;\n" +
@@ -117,6 +119,7 @@ public class Controller {
 			lastResult = interpret(line);
 			if (errorsPresent) {
 				view.appendToHistory("Error in line " + lineno + ":\n" + lastResult);
+				view.getInput().setEnabled(true);
 				return;
 			}
 			if (newDef != null) {
@@ -151,6 +154,15 @@ public class Controller {
 			expression = expression.substring(eqLoc + 1);
 		}
 		
+		//Check flags; right now, only flag is "-lazy", which prevents the expression from being evaluated
+		boolean isLazy = false;
+		for (int lastDash = expression.lastIndexOf('-'); lastDash != -1; lastDash = expression.lastIndexOf('-')) {
+			String flag = expression.substring(lastDash);
+			expression = expression.substring(0, lastDash);
+			if (flag.equals("-lazy"))
+				isLazy = true;
+		}
+		
 		//Attempt to parse the expression String into an Expression (the datatype)
 		Expression expr = null;
 		try {
@@ -183,13 +195,15 @@ public class Controller {
 		toReturn += ALPHA + ":" + printer.print(expr) + "\n";
 		
 		//Attempt to actually evaluate the expression, stopping only if the lambda expression explodes or reduces too many times
-		try {
-			expr = new InterpreterVisitor(maxReductions).evaluate(expr);
-		} catch (StackOverflowError e) {
-			return toReturn + "Error: stack overflow";
-		} catch (ReductionLimitException e) {
-			return toReturn + "Error: maximum reductions exceeded";
-		}
+		if (!isLazy)
+			try {
+				expr = new InterpreterVisitor(maxReductions).evaluate(expr);
+			} catch (StackOverflowError e) {
+				return toReturn + "Error: stack overflow";
+			} catch (ReductionLimitException e) {
+				return toReturn + "Error: maximum reductions exceeded";
+			}
+		
 		//Store the expression in the defs map, if a def is provided
 		if (defName != "") {
 			if (!defs.containsKey(defName)) {

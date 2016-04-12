@@ -17,12 +17,6 @@ public class CorrectnessVisitor extends BasicLambdaVisitor {
 	
 	@Override
 	public void visit(Abstraction a) {
-		/*
-		if (fr.contains(a.param())) {
-			errors += "Conflicting variable " + a.param() + "\n";
-			correct = false;
-		}
-		*/
 		fr.push(a.param());
 		visit(a.exp());
 		if (a.param() != fr.pop()) {

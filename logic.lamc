@@ -1,0 +1,6 @@
+true = λt.λf.t
+false = λt.λf.f
+if = λb.λt.λe.((b t) e)
+and = λp.λq.((p q) p)
+or = λp.λq.((p p) q)
+not = λp.λt.λf.((p f) t)

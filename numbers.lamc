@@ -1,0 +1,12 @@
+zero = λs.λz.z
+incr = λx.λs.λz.(s ((x s) z))
+plus = λx.λy.((x incr) y)
+times = λx.λy.((x (plus y)) zero)
+one = (incr zero)
+two = (incr one)
+three = (incr two)
+four = (incr three)
+five = (incr four)
+six = (incr five)
+seven = (incr six)
+eight = (incr seven)
