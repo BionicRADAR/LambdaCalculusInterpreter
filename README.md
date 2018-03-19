@@ -10,6 +10,7 @@ edited
 computations
 - The area in the top right is for displaying the names of user-defined
 variables  
+
 Lambda expressions can be typed into the input field, using the standard form of
 [lambda]param.expression
 To type the lambda character, use the semicolon key.  
