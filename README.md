@@ -27,4 +27,5 @@ To exit, type "exit"
 The program now also has an editor, which can be opened by typing "editor"
 into the input field.  
 The editor provides an area to type, which also changes the semicolon into a
-lambda character.
+To run from jar file, use the command line arguments  
+"java -Xss64m -Dfile.encoding=UTF-8 -jar LambdaInterp.jar"
