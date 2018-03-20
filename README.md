@@ -27,6 +27,13 @@ To exit, type "exit"
 
 The program now also has an editor, which can be opened by typing "editor"
 into the input field.  
-The editor provides an area to type, which also changes the semicolon into a
+The editor provides an area to type, which also changes the semicolon into a 
+lambda. To run the editor's contents, hit "Run All" in the Run menu, or 
+press F9.
+Each line acts as an individual statement, and the lines are executed in order.
+The editor also allows saving and loading of contents. While no filetype is 
+properly associated with the editor, I have taken to using the extension
+".lamc".  
+
 To run from jar file, use the command line arguments  
 "java -Xss64m -Dfile.encoding=UTF-8 -jar LambdaInterp.jar"
